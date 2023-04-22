@@ -1,26 +1,19 @@
-package com.mix333.catch2048
+package com.mix333.catch2048.ui
 
 import android.content.Intent
-import android.opengl.Visibility
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.mix333.catch2048.R
 
-class GameOver : AppCompatActivity() {
+class GameOverActivity : AppCompatActivity() {
 
-//    private val tvScore : TextView by lazy {
-//        findViewById(R.id.tv_score)
-//    }
-//    private val highScore : TextView by lazy {
-//        findViewById(R.id.tv_score)
-//    }
 
-    private lateinit var tvScore : TextView
-    private lateinit var tvHighScore : TextView
+    private lateinit var tvScore: TextView
+    private lateinit var tvHighScore: TextView
     private lateinit var btnRestart: ImageView
     private lateinit var ivWinningCup: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +29,9 @@ class GameOver : AppCompatActivity() {
         tvScore.text = "The game is ended, your score is $score"
         val sharedPreferences = getSharedPreferences("score_pref", 0)
         var highest = sharedPreferences.getInt("highest", 0)
-        //if(score>highest) sharedPreferences.edit().putInt("highest", score).apply()
-        if(score>highest){
+        if (score > highest) {
             highest = score
-            sharedPreferences.edit().putInt("highest", highest).commit()
+            sharedPreferences.edit().putInt("highest", highest).apply()
         } else ivWinningCup.visibility = View.INVISIBLE
         tvHighScore.text = "The highest score is: $highest"
         btnRestart.setOnClickListener {
@@ -48,7 +40,7 @@ class GameOver : AppCompatActivity() {
 
     }
 
-    fun restart(){
+    private fun restart() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
@@ -57,4 +49,5 @@ class GameOver : AppCompatActivity() {
     override fun onBackPressed() {
         restart()
     }
+
 }

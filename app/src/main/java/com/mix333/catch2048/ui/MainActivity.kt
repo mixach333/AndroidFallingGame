@@ -1,17 +1,10 @@
-package com.mix333.catch2048
+package com.mix333.catch2048.ui
 
-
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
-import android.view.View
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.ImageView
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-
+import androidx.appcompat.app.AppCompatActivity
+import com.mix333.catch2048.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,8 +17,8 @@ class MainActivity : AppCompatActivity() {
         startGame.setOnClickListener { startGame() }
     }
 
-    fun startGame() {
-        val gameView: GameView = GameView(this)
+    private fun startGame() {
+        val gameView = GameView(this)
         setContentView(gameView)
     }
 }

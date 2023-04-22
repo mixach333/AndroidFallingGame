@@ -1,11 +1,11 @@
-package com.mix333.catch2048
+package com.mix333.catch2048.domain
 
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
+import com.mix333.catch2048.R
+import com.mix333.catch2048.ui.GameView
 import java.util.*
-import kotlin.collections.ArrayList
 
 class Spike(context: Context) {
     var spike = ArrayList<Bitmap>(12)
@@ -13,7 +13,6 @@ class Spike(context: Context) {
     var spikeX = 0
     var spikeY = 0
     var spikeVelocity = 0
-    var random = Random()
 
     init {
         with(context.resources) {
@@ -25,24 +24,12 @@ class Spike(context: Context) {
             spike.add(Bitmap.createScaledBitmap(d4, 150, 225, false))
             spike.add(Bitmap.createScaledBitmap(d8, 150, 225, false))
             spike.add(Bitmap.createScaledBitmap(d16, 150, 225, false))
-//            spike.add(BitmapFactory.decodeResource(this, R.drawable.r2_small, options))
-//            spike.add(BitmapFactory.decodeResource(this, R.drawable.r2_small, options))
-//            spike.add(BitmapFactory.decodeResource(this, R.drawable.r2_small, options))
-//            spike.add(BitmapFactory.decodeResource(this, R.drawable.d16, options))
-//            spike.add(BitmapFactory.decodeResource(this, R.drawable.d32, options))
-//            spike.add(BitmapFactory.decodeResource(this, R.drawable.d64, options))
-//            spike.add(BitmapFactory.decodeResource(this, R.drawable.d128, options))
-//            spike.add(BitmapFactory.decodeResource(this, R.drawable.d256, options))
-//            spike.add(BitmapFactory.decodeResource(this, R.drawable.d512, options))
-//            spike.add(BitmapFactory.decodeResource(this, R.drawable.d1024, options))
-//            spike.add(BitmapFactory.decodeResource(this, R.drawable.d2048, options))
             resetPosition()
         }
-
     }
 
     fun resetPosition() {
-        spikeX = Random().nextInt(GameView.dWidth- getSpikeWidth())
+        spikeX = Random().nextInt(GameView.dWidth - getSpikeWidth())
         spikeY =  Random().nextInt(600) * -1
         spikeVelocity = 30 + Random().nextInt(10)
     }
