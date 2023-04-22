@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.mix333.catch2048.R
 
@@ -34,7 +35,12 @@ class GameOverActivity : AppCompatActivity() {
         btnRestart.setOnClickListener {
             restart()
         }
-
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                restart()
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, callback)
     }
 
     private fun restart() {
@@ -42,9 +48,9 @@ class GameOverActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-
-    override fun onBackPressed() {
-        restart()
-    }
+//
+//    override fun onBackPressed() {
+//        restart()
+//    }
 
 }

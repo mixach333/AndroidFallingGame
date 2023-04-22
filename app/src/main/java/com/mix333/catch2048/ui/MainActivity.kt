@@ -24,5 +24,6 @@ class MainActivity : AppCompatActivity() {
     private fun startGame() {
         val gameView = GameView(this)
         setContentView(gameView)
+        viewModel.startWebView(this)
     }
 }
