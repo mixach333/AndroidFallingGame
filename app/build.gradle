@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.mix333.catch2048'
+    namespace 'com.mix333.savethecat'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.mix333.catch2048"
+        applicationId "com.mix333.savethecat"
         minSdk 21
         targetSdk 33
         versionCode 1

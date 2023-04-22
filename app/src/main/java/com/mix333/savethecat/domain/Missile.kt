@@ -1,10 +1,11 @@
-package com.mix333.catch2048.domain
+package com.mix333.savethecat.domain
 
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import com.mix333.catch2048.R
-import com.mix333.catch2048.ui.GameView
+import com.mix333.savethecat.R
+
+import com.mix333.savethecat.ui.GameView
 import java.util.*
 
 class Missile(context: Context) {

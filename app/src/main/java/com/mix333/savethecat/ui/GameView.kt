@@ -1,4 +1,4 @@
-package com.mix333.catch2048.ui
+package com.mix333.savethecat.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -11,8 +11,10 @@ import android.view.Display
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-import com.mix333.catch2048.R
-import com.mix333.catch2048.domain.Missile
+import com.mix333.savethecat.R
+
+
+import com.mix333.savethecat.domain.Missile
 import kotlinx.coroutines.*
 import java.util.*
 

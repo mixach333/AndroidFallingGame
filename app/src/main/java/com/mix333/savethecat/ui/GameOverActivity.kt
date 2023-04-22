@@ -1,4 +1,4 @@
-package com.mix333.catch2048.ui
+package com.mix333.savethecat.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import com.mix333.catch2048.R
+import com.mix333.savethecat.R
+
 
 class GameOverActivity : AppCompatActivity() {
 
@@ -48,9 +49,5 @@ class GameOverActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-//
-//    override fun onBackPressed() {
-//        restart()
-//    }
 
 }

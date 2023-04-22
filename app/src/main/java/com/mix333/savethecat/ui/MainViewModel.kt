@@ -1,4 +1,4 @@
-package com.mix333.catch2048.ui
+package com.mix333.savethecat.ui
 
 import android.content.Context
 import android.content.Intent

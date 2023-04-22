@@ -1,12 +1,11 @@
-package com.mix333.catch2048.ui
+package com.mix333.savethecat.ui
 
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.mix333.catch2048.R
-
+import com.mix333.savethecat.R
 
 
 class MainActivity : AppCompatActivity() {

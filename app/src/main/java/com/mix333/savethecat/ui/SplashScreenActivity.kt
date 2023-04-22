@@ -1,16 +1,14 @@
-package com.mix333.catch2048.ui
+package com.mix333.savethecat.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.ColorFilter
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.mix333.catch2048.R
+import com.mix333.savethecat.R
+
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

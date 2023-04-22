@@ -1,4 +1,4 @@
-package com.mix333.catch2048
+package com.mix333.savethecat
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry

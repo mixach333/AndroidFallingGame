@@ -1,4 +1,4 @@
-package com.mix333.catch2048
+package com.mix333.savethecat
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
