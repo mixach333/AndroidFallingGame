@@ -17,12 +17,14 @@ class Spike(context: Context) {
 
     init {
         with(context.resources) {
-            val d2 = BitmapFactory.decodeResource(this, R.drawable.d2)
-            val d4 = BitmapFactory.decodeResource(this, R.drawable.d4)
-            val d8 = BitmapFactory.decodeResource(this, R.drawable.d8)
-            spike.add(Bitmap.createScaledBitmap(d2, 150, 150, false))
-            spike.add(Bitmap.createScaledBitmap(d4, 150, 150, false))
-            spike.add(Bitmap.createScaledBitmap(d8, 150, 150, false))
+            val d2 = BitmapFactory.decodeResource(this, R.drawable.missile1_1)
+            val d4 = BitmapFactory.decodeResource(this, R.drawable.missile2_1)
+            val d8 = BitmapFactory.decodeResource(this, R.drawable.missile3_3)
+            val d16 = BitmapFactory.decodeResource(this, R.drawable.missile4_4)
+            spike.add(Bitmap.createScaledBitmap(d2, 150, 225, false))
+            spike.add(Bitmap.createScaledBitmap(d4, 150, 225, false))
+            spike.add(Bitmap.createScaledBitmap(d8, 150, 225, false))
+            spike.add(Bitmap.createScaledBitmap(d16, 150, 225, false))
 //            spike.add(BitmapFactory.decodeResource(this, R.drawable.r2_small, options))
 //            spike.add(BitmapFactory.decodeResource(this, R.drawable.r2_small, options))
 //            spike.add(BitmapFactory.decodeResource(this, R.drawable.r2_small, options))

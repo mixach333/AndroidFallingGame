@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageView
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -14,24 +15,17 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var button: Button
+    private lateinit var startGame: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        button = findViewById(R.id.start_game)
-        button.setOnClickListener { startGame(it) }
+        startGame = findViewById(R.id.start_game)
+        startGame.setOnClickListener { startGame() }
     }
 
-    fun startGame(view: View) {
+    fun startGame() {
         val gameView: GameView = GameView(this)
         setContentView(gameView)
-        lifecycleScope.launch {
-            while (true) {
-                delay(100)
-                //gameView.invalidate()
-            }
-
-        }
     }
 }

@@ -6,12 +6,10 @@ import android.content.Intent
 import android.graphics.*
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Display
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -34,21 +32,24 @@ class GameView @JvmOverloads constructor(
     private var healthPaint = Paint()
     private val TEXT_SIZE: Float = 120f
     private var points = 0
-    private var life = 0
+    private var life = 3
     private var rabbitX: Float = 0f
     private var rabbitY: Float = 0f
     private var oldX: Float = 0f
     private var oldRabbitX: Float = 0f
     private var spikes: ArrayList<Spike>
+    private val intentGameOver = Intent(this.context, GameOver::class.java)
     //private var explosions = ArrayList<Explosion>()
-    private val r = java.lang.Runnable {
+    private val invalidateDelay = java.lang.Runnable {
         invalidate()
     }
+
 
     @Suppress("DEPRECATION")
     private var thisDisplay: Display?
 
     private var size: Point = Point()
+    private val collisionDetector : java.lang.Runnable
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -64,9 +65,9 @@ class GameView @JvmOverloads constructor(
             dHeight = size.y
         }
         rabbit = Bitmap.createScaledBitmap(
-            BitmapFactory.decodeResource(context.resources, R.drawable.d2),
-            175,
-            175,
+            BitmapFactory.decodeResource(context.resources, R.drawable.scared_cat_3),
+            dWidth/8,
+            dWidth/8,
             false
         )
         ground = Bitmap.createScaledBitmap(
@@ -75,7 +76,6 @@ class GameView @JvmOverloads constructor(
                 R.drawable.platform_ground
             ), dWidth/2, dHeight/5, false
         )
-        Log.d("Metrics", "Window metrics are: width = $dWidth, height = $dHeight")
         rectBackground = Rect(0, 0, dWidth, dHeight)
         rectGround = Rect(-100, dHeight - ground.height, dWidth+100, dHeight)
         textPaint.color = Color.rgb(255, 165, 0)
@@ -86,10 +86,25 @@ class GameView @JvmOverloads constructor(
         rabbitX = (dWidth / 2 - (rabbit.width / 2)).toFloat()
         rabbitY = (dHeight - ground.height/1.5 - rabbit.height).toFloat()
         spikes = ArrayList<Spike>()
-        for (i in 0 until 11) {
+        for (i in 0 until 5) {
             spikes.add(Spike(context))
         }
-
+        collisionDetector = java.lang.Runnable {
+        spikes.forEach { spike ->
+            if (spike.spikeY + spike.getSpikeHeight() >= rabbitY
+                && spike.spikeX + spike.getSpikeWidth() >= rabbitX
+                && spike.spikeX <= rabbitX + rabbit.width
+            ) {
+                life--
+                spike.resetPosition()
+                if (life == 0) {
+                    intentGameOver.putExtra("points", points)
+                    context.startActivity(intentGameOver)
+                    (context as Activity).finish()
+                }
+            }
+        }
+    }
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -115,23 +130,21 @@ class GameView @JvmOverloads constructor(
             spike.resetPosition()
             }
         }
-        spikes.forEach { spike ->
-            if (spike.spikeX + spike.getSpikeWidth() >= rabbitX
-                && spike.spikeX <= rabbitX + rabbit.width
-                && spike.spikeY + spike.getSpikeWidth() >= rabbitY
-                && spike.spikeY + spike.getSpikeWidth() <= rabbitY + rabbit.height
-            ) {
-                life--
-                spike.resetPosition()
-                if (life == 0) {
-                    Toast.makeText(context, "Intent should be called", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this.context, GameOver::class.java)
-                    intent.putExtra("points", points)
-                    context.startActivity(intent)
-                    (context as Activity).finish()
-                }
-            }
-        }
+        handler.postDelayed(collisionDetector, UPDATE_MILLIS)
+//        spikes.forEach { spike ->
+//            if (spike.spikeY + spike.getSpikeHeight() >= rabbitY
+//                && spike.spikeX + spike.getSpikeWidth() >= rabbitX
+//                && spike.spikeX <= rabbitX + rabbit.width
+//            ) {
+//                life--
+//                spike.resetPosition()
+//                if (life == 0) {
+//                    intentGameOver.putExtra("points", points)
+//                    context.startActivity(intentGameOver)
+//                    (context as Activity).finish()
+//                }
+//            }
+//        }
 //        explosions.forEach {
 //            canvas.drawBitmap(
 //                it.getExplosion(it.explosionFrame),
@@ -153,7 +166,7 @@ class GameView @JvmOverloads constructor(
             healthPaint
         )
         canvas.drawText("$points", 20.toFloat(), TEXT_SIZE, textPaint)
-        handler.postDelayed(r, UPDATE_MILLIS)
+        handler.postDelayed(invalidateDelay, UPDATE_MILLIS)
     }
 
     // MotionEvent?
