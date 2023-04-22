@@ -12,7 +12,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import com.mix333.catch2048.R
-import com.mix333.catch2048.domain.Spike
+import com.mix333.catch2048.domain.Missile
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -26,30 +26,30 @@ class GameView @JvmOverloads constructor(
         var dWidth = 0
         var dHeight = 0
     }
-
-    private var background: Bitmap =
+    private val background: Bitmap =
         BitmapFactory.decodeResource(context.resources, R.drawable.background)
-    private var ground: Bitmap
-    private var rabbit: Bitmap
-    private var rectGround: Rect
-    private var rectBackground: Rect
-    private var textPaint = Paint()
-    private var healthPaint = Paint()
+    private val ground: Bitmap
+    private val rabbit: Bitmap
+    private val rectGround: Rect
+    private val rectBackground: Rect
+    private val textPaint = Paint()
+    private val healthPaint = Paint()
     private var points = 0
     private var life = 3
-    private var rabbitX: Float = 0f
-    private var rabbitY: Float = 0f
+    private var catX: Float = 0f
+    private var catY: Float = 0f
     private var oldX: Float = 0f
-    private var oldRabbitX: Float = 0f
-    private var spikes: ArrayList<Spike>
+    private var oldCatX: Float = 0f
+    private val missiles: ArrayList<Missile>
     private val intentGameOverActivity = Intent(this.context, GameOverActivity::class.java)
     private val invalidateDelay = java.lang.Runnable {
         invalidate()
     }
-    @Suppress("DEPRECATION")
-    private var thisDisplay: Display?
-    private var size: Point = Point()
     private val collisionDetector: java.lang.Runnable
+    @Suppress("DEPRECATION")
+    private val thisDisplay: Display?
+    private val size: Point = Point()
+
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -85,17 +85,17 @@ class GameView @JvmOverloads constructor(
         textPaint.textAlign = Paint.Align.LEFT
         //textPaint.typeface = ResourcesCompat.getFont(context, R.font.....)
         healthPaint.color = Color.GREEN
-        rabbitX = (dWidth / 2 - (rabbit.width / 2)).toFloat()
-        rabbitY = (dHeight - ground.height / 1.5 - rabbit.height).toFloat()
-        spikes = ArrayList<Spike>()
+        catX = (dWidth / 2 - (rabbit.width / 2)).toFloat()
+        catY = (dHeight - ground.height / 1.5 - rabbit.height).toFloat()
+        missiles = ArrayList<Missile>()
         for (i in 0 until 5) {
-            spikes.add(Spike(context))
+            missiles.add(Missile(context))
         }
         collisionDetector = java.lang.Runnable {
-            spikes.forEach { spike ->
-                if (spike.spikeY + spike.getSpikeHeight() >= rabbitY
-                    && spike.spikeX + spike.getSpikeWidth() >= rabbitX
-                    && spike.spikeX <= rabbitX + rabbit.width
+            missiles.forEach { spike ->
+                if (spike.spikeY + spike.getSpikeHeight() >= catY
+                    && spike.spikeX + spike.getSpikeWidth() >= catX
+                    && spike.spikeX <= catX + rabbit.width
                 ) {
                     life--
                     spike.resetPosition()
@@ -113,7 +113,7 @@ class GameView @JvmOverloads constructor(
         super.onDraw(canvas)
         canvas.drawBitmap(background, null, rectBackground, null)
         canvas.drawBitmap(ground, null, rectGround, null)
-        canvas.drawBitmap(rabbit, rabbitX, rabbitY, null)
+        canvas.drawBitmap(rabbit, catX, catY, null)
         drawSpikes(canvas)
         handler.postDelayed(collisionDetector, UPDATE_MILLIS)
         drawLifeAndScore(canvas)
@@ -125,16 +125,16 @@ class GameView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val touchX = event.x
         val touchY = event.y
-        if (touchY >= rabbitY - rabbit.height * 0.5) {
+        if (touchY >= catY - rabbit.height * 0.5) {
             val action = event.action
             if (action == MotionEvent.ACTION_DOWN) {
                 oldX = event.x
-                oldRabbitX = rabbitX
+                oldCatX = catX
             }
             if (action == MotionEvent.ACTION_MOVE) {
                 val shift = oldX - touchX
-                val newRabbitX = oldRabbitX - shift
-                rabbitX = if (newRabbitX <= 0) 0f
+                val newRabbitX = oldCatX - shift
+                catX = if (newRabbitX <= 0) 0f
                 else if (newRabbitX >= dWidth - rabbit.width) (dWidth - rabbit.width).toFloat()
                 else newRabbitX
             }
@@ -143,7 +143,7 @@ class GameView @JvmOverloads constructor(
     }
 
     private fun drawSpikes(canvas: Canvas) {
-        spikes.forEach { spike ->
+        missiles.forEach { spike ->
             canvas.drawBitmap(
                 spike.getSpike(spike.spikeFrame),
                 spike.spikeX.toFloat(),

@@ -3,10 +3,14 @@ package com.mix333.catch2048.ui
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.mix333.catch2048.R
 
+
+
 class MainActivity : AppCompatActivity() {
+    private val viewModel: MainViewModel by viewModels()
 
     private lateinit var startGame: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {

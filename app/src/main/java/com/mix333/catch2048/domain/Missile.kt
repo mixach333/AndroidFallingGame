@@ -7,7 +7,7 @@ import com.mix333.catch2048.R
 import com.mix333.catch2048.ui.GameView
 import java.util.*
 
-class Spike(context: Context) {
+class Missile(context: Context) {
     var spike = ArrayList<Bitmap>(12)
     var spikeFrame = 0
     var spikeX = 0
