@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+    <ImageView
+        android:layout_margin="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_round_restart_alt_24"
+        android:layout_gravity="end"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+
+    <TextView
+        android:id="@+id/tv_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:elevation="16dp"
+        android:fontFamily="monospace"
+        android:gravity="center_horizontal"
+        android:shadowColor="@color/black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="5"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#00BCD4"
+        android:textSize="42sp"
+        tools:text="The game is ended, your score is 2048" />
+
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:layout_width="256dp"
+        android:layout_height="256dp"
+        app:srcCompat="@drawable/winning_cup" />
+
+    <TextView
+        android:id='@+id/tv_high_score'
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:elevation="16dp"
+        android:fontFamily="monospace"
+        android:gravity="center_horizontal"
+        android:shadowColor="@color/black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="5"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#00BCD4"
+        android:textSize="42sp"
+        tools:text="The highest score is: 4096" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"/>
+
+</LinearLayout>
