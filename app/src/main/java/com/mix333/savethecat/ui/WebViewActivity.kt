@@ -2,6 +2,7 @@ package com.mix333.savethecat.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -33,13 +34,10 @@ class WebViewActivity : AppCompatActivity() {
                     webView.loadUrl(url)
                 }
             }
-
             override fun onCancelled(databaseError: DatabaseError) {
-                // Handle error
+                Log.e("WebViewActivity", "Database error: ${databaseError.message}")
             }
         })
-//        val pinterestUrl = "https://www.pinterest.com/search/pins/?q=adnroid&rs=typed"
-//        webView.loadUrl(pinterestUrl)
 
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(

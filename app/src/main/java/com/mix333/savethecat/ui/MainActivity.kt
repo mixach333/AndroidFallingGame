@@ -30,21 +30,21 @@ class MainActivity : AppCompatActivity() {
         remoteConfig.setConfigSettingsAsync(configSettings)
         checkRemoteConfig()
 
-//        remoteConfig.addOnConfigUpdateListener(object : ConfigUpdateListener {
-//            override fun onUpdate(configUpdate : ConfigUpdate) {
-//                Log.d("Update", "Updated keys: " + configUpdate.updatedKeys);
-//
-//                if (configUpdate.updatedKeys.contains("isNavigate")) {
-//                    remoteConfig.activate().addOnCompleteListener {
-//                       checkRemoteConfig()
-//                    }
-//                }
-//            }
-//
-//            override fun onError(error : FirebaseRemoteConfigException) {
-//                Log.w("Error update", "Config update error with code: " + error.code, error)
-//            }
-//        })
+        remoteConfig.addOnConfigUpdateListener(object : ConfigUpdateListener {
+            override fun onUpdate(configUpdate : ConfigUpdate) {
+                Log.d("Update", "Updated keys: " + configUpdate.updatedKeys);
+
+                if (configUpdate.updatedKeys.contains("isNavigate")) {
+                    remoteConfig.activate().addOnCompleteListener {
+                       checkRemoteConfig()
+                    }
+                }
+            }
+
+            override fun onError(error : FirebaseRemoteConfigException) {
+                Log.w("Error update", "Config update error with code: " + error.code, error)
+            }
+        })
     }
 
     private fun startGame() {
