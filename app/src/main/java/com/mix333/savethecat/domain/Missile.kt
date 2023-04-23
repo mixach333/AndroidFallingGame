@@ -4,16 +4,15 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.mix333.savethecat.R
-
 import com.mix333.savethecat.ui.GameView
 import java.util.*
 
 class Missile(context: Context) {
-    var spike = ArrayList<Bitmap>(12)
-    var spikeFrame = 0
-    var spikeX = 0
-    var spikeY = 0
-    var spikeVelocity = 0
+    var missile = ArrayList<Bitmap>(12)
+    var missileFrame = 0
+    var missileX = 0
+    var missileY = 0
+    var missileVelocity = 0
 
     init {
         with(context.resources) {
@@ -21,23 +20,23 @@ class Missile(context: Context) {
             val m2 = BitmapFactory.decodeResource(this, R.drawable.missile2_1)
             val m3 = BitmapFactory.decodeResource(this, R.drawable.missile3_3)
             val m4 = BitmapFactory.decodeResource(this, R.drawable.missile4_4)
-            spike.add(Bitmap.createScaledBitmap(m1, 150, 225, false))
-            spike.add(Bitmap.createScaledBitmap(m2, 150, 225, false))
-            spike.add(Bitmap.createScaledBitmap(m3, 150, 225, false))
-            spike.add(Bitmap.createScaledBitmap(m4, 150, 225, false))
+            missile.add(Bitmap.createScaledBitmap(m1, 150, 225, false))
+            missile.add(Bitmap.createScaledBitmap(m2, 150, 225, false))
+            missile.add(Bitmap.createScaledBitmap(m3, 150, 225, false))
+            missile.add(Bitmap.createScaledBitmap(m4, 150, 225, false))
             resetPosition()
         }
     }
 
     fun resetPosition() {
-        spikeX = Random().nextInt(GameView.dWidth - getSpikeWidth())
-        spikeY =  Random().nextInt(600) * -1
-        spikeVelocity = 30 + Random().nextInt(10)
+        missileX = Random().nextInt(GameView.dWidth - getMissileWidth())
+        missileY =  Random().nextInt(500) * -1
+        missileVelocity = 30 + Random().nextInt(15)
     }
 
-    fun getSpike(spikeFrame: Int): Bitmap = spike[spikeFrame]
-    fun getSpikeWidth(): Int = spike[0].width
-    fun getSpikeHeight(): Int = spike[0].height
+    fun getMissile(missileFrame: Int): Bitmap = missile[missileFrame]
+    fun getMissileWidth(): Int = missile[0].width
+    fun getMissileHeight(): Int = missile[0].height
 
 
 }

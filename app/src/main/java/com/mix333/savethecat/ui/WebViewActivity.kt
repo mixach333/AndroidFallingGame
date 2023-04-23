@@ -52,10 +52,6 @@ class WebViewActivity : AppCompatActivity() {
             override fun handleOnBackPressed() {
                 if (webView.canGoBack()) {
                     webView.goBack()}
-//                } else {
-//                    isEnabled = false
-//                    onBackPressedDispatcher.onBackPressed()
-//                }
             }
         }
         onBackPressedDispatcher.addCallback(this, callback)

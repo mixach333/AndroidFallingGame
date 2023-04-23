@@ -12,12 +12,16 @@ import com.google.firebase.remoteconfig.ConfigUpdateListener
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigException
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mix333.savethecat.R
+import com.mix333.savethecat.model.DefaultRepositoryImpl
 
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels {
+        MainViewModelFactory(DefaultRepositoryImpl())
+    }
     private val remoteConfig by lazy { viewModel.getRemoteConfig() }
     private val startGame: ImageView by lazy { findViewById(R.id.start_game) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -51,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun setupRemoteConfig(){
+    private fun setupRemoteConfig() {
         val configSettings = remoteConfigSettings {
             minimumFetchIntervalInSeconds = 10
         }

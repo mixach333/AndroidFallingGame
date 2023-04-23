@@ -28,10 +28,11 @@ class GameView @JvmOverloads constructor(
         var dWidth = 0
         var dHeight = 0
     }
+
     private val background: Bitmap =
         BitmapFactory.decodeResource(context.resources, R.drawable.background)
     private val ground: Bitmap
-    private val rabbit: Bitmap
+    private val cat: Bitmap
     private val rectGround: Rect
     private val rectBackground: Rect
     private val textPaint = Paint()
@@ -48,6 +49,7 @@ class GameView @JvmOverloads constructor(
         invalidate()
     }
     private val collisionDetector: java.lang.Runnable
+
     @Suppress("DEPRECATION")
     private val thisDisplay: Display?
     private val size: Point = Point()
@@ -68,7 +70,7 @@ class GameView @JvmOverloads constructor(
             dWidth = size.x
             dHeight = size.y
         }
-        rabbit = Bitmap.createScaledBitmap(
+        cat = Bitmap.createScaledBitmap(
             BitmapFactory.decodeResource(context.resources, R.drawable.scared_cat_3),
             dWidth / 8,
             dWidth / 8,
@@ -85,22 +87,21 @@ class GameView @JvmOverloads constructor(
         textPaint.color = Color.rgb(255, 165, 0)
         textPaint.textSize = TEXT_SIZE
         textPaint.textAlign = Paint.Align.LEFT
-        //textPaint.typeface = ResourcesCompat.getFont(context, R.font.....)
         healthPaint.color = Color.GREEN
-        catX = (dWidth / 2 - (rabbit.width / 2)).toFloat()
-        catY = (dHeight - ground.height / 1.5 - rabbit.height).toFloat()
+        catX = (dWidth / 2 - (cat.width / 2)).toFloat()
+        catY = (dHeight - ground.height / 1.5 - cat.height).toFloat()
         missiles = ArrayList<Missile>()
         for (i in 0 until 5) {
             missiles.add(Missile(context))
         }
         collisionDetector = java.lang.Runnable {
-            missiles.forEach { spike ->
-                if (spike.spikeY + spike.getSpikeHeight() >= catY
-                    && spike.spikeX + spike.getSpikeWidth() >= catX
-                    && spike.spikeX <= catX + rabbit.width
+            missiles.forEach { missile ->
+                if (missile.missileY + missile.getMissileHeight() >= catY
+                    && missile.missileX + missile.getMissileWidth() >= catX
+                    && missile.missileX <= catX + cat.width
                 ) {
                     life--
-                    spike.resetPosition()
+                    missile.resetPosition()
                     if (life == 0) {
                         intentGameOverActivity.putExtra("points", points)
                         context.startActivity(intentGameOverActivity)
@@ -115,19 +116,18 @@ class GameView @JvmOverloads constructor(
         super.onDraw(canvas)
         canvas.drawBitmap(background, null, rectBackground, null)
         canvas.drawBitmap(ground, null, rectGround, null)
-        canvas.drawBitmap(rabbit, catX, catY, null)
-        drawSpikes(canvas)
+        canvas.drawBitmap(cat, catX, catY, null)
+        drawMissiles(canvas)
         handler.postDelayed(collisionDetector, UPDATE_MILLIS)
         drawLifeAndScore(canvas)
         handler.postDelayed(invalidateDelay, UPDATE_MILLIS)
     }
 
-    // MotionEvent?
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val touchX = event.x
         val touchY = event.y
-        if (touchY >= catY - rabbit.height * 0.5) {
+        if (touchY >= catY - cat.height * 0.5) {
             val action = event.action
             if (action == MotionEvent.ACTION_DOWN) {
                 oldX = event.x
@@ -137,32 +137,32 @@ class GameView @JvmOverloads constructor(
                 val shift = oldX - touchX
                 val newRabbitX = oldCatX - shift
                 catX = if (newRabbitX <= 0) 0f
-                else if (newRabbitX >= dWidth - rabbit.width) (dWidth - rabbit.width).toFloat()
+                else if (newRabbitX >= dWidth - cat.width) (dWidth - cat.width).toFloat()
                 else newRabbitX
             }
         }
         return true
     }
 
-    private fun drawSpikes(canvas: Canvas) {
-        missiles.forEach { spike ->
+    private fun drawMissiles(canvas: Canvas) {
+        missiles.forEach { missile ->
             canvas.drawBitmap(
-                spike.getSpike(spike.spikeFrame),
-                spike.spikeX.toFloat(),
-                spike.spikeY.toFloat(),
+                missile.getMissile(missile.missileFrame),
+                missile.missileX.toFloat(),
+                missile.missileY.toFloat(),
                 null
             )
-            spike.spikeFrame++
-            if (spike.spikeFrame > 2) spike.spikeFrame = 0
-            spike.spikeY += spike.spikeVelocity
-            if ((spike.spikeY + spike.getSpikeHeight()) >= (dHeight - ground.height * 0.75)) {
+            missile.missileFrame++
+            if (missile.missileFrame > 2) missile.missileFrame = 0
+            missile.missileY += missile.missileVelocity
+            if ((missile.missileY + missile.getMissileHeight()) >= (dHeight - ground.height * 0.75)) {
                 points += 10
-                spike.resetPosition()
+                missile.resetPosition()
             }
         }
     }
 
-    private fun drawLifeAndScore(canvas: Canvas){
+    private fun drawLifeAndScore(canvas: Canvas) {
         if (life == 2) healthPaint.color = Color.YELLOW
         else if (life == 1) healthPaint.color = Color.RED
         canvas.drawRect(
