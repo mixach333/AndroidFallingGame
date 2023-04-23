@@ -7,6 +7,11 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.mix333.savethecat.R
 
 
@@ -18,8 +23,23 @@ class WebViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
         webView.settings.javaScriptEnabled = true
-        val pinterestUrl = "https://www.pinterest.com/search/pins/?q=adnroid&rs=typed"
-        webView.loadUrl(pinterestUrl)
+        val databaseRef = Firebase.database.reference.child("url")
+
+        databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val url = dataSnapshot.getValue(String::class.java)
+                if (url != null) {
+                    // Load the URL in the WebView
+                    webView.loadUrl(url)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle error
+            }
+        })
+//        val pinterestUrl = "https://www.pinterest.com/search/pins/?q=adnroid&rs=typed"
+//        webView.loadUrl(pinterestUrl)
 
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
