@@ -1,18 +1,23 @@
 package com.mix333.savethecat.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.remoteconfig.ConfigUpdate
 import com.google.firebase.remoteconfig.ConfigUpdateListener
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigException
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mix333.savethecat.R
 import com.mix333.savethecat.model.DefaultRepositoryImpl
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,17 +48,33 @@ class MainActivity : AppCompatActivity() {
                     val flag = remoteConfig.getBoolean("isNavigate")
                     Log.d("RemoteConfigCheck", "$flag")
                     if (flag) {
-                        startWebViewActivity()
+                        startWebViewActivity(this)
                     }
                 }
             }
     }
 
-    private fun startWebViewActivity() {
-        val intent = Intent(this, WebViewActivity::class.java)
-        startActivity(intent)
-        finish()
+    private fun startWebViewActivity(context: Context) {
+        if (viewModel.checkInternetConnection(context)) {
+            val intent = Intent(this, WebViewActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            Toast.makeText(
+                this,
+                "Missing internet connection",
+                Toast.LENGTH_SHORT
+            ).show()
+            lifecycleScope.launch {
+                repeat(5) {
+                    delay(360000)
+                    startWebViewActivity(this@MainActivity)
+                }
+            }
+        }
     }
+
+
 
     private fun setupRemoteConfig() {
         val configSettings = remoteConfigSettings {

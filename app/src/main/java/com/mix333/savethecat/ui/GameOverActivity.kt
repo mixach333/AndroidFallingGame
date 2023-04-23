@@ -12,18 +12,14 @@ import com.mix333.savethecat.R
 
 class GameOverActivity : AppCompatActivity() {
 
+    private val tvScore: TextView by lazy { findViewById(R.id.tv_score) }
+    private val tvHighScore: TextView by lazy { findViewById(R.id.tv_high_score) }
+    private val btnRestart: ImageView by lazy { findViewById(R.id.btn_restart_game) }
+    private val ivWinningCup: ImageView by lazy { findViewById(R.id.iv_winning_cup) }
 
-    private lateinit var tvScore: TextView
-    private lateinit var tvHighScore: TextView
-    private lateinit var btnRestart: ImageView
-    private lateinit var ivWinningCup: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.game_over)
-        tvScore = findViewById(R.id.tv_score)
-        tvHighScore = findViewById(R.id.tv_high_score)
-        btnRestart = findViewById(R.id.btn_restart_game)
-        ivWinningCup = findViewById(R.id.iv_winning_cup)
         val score = requireNotNull(intent.extras?.getInt("points"))
         tvScore.text = "The game is ended, your score is $score"
         val sharedPreferences = getSharedPreferences("score_pref", 0)

@@ -18,7 +18,8 @@ import com.mix333.savethecat.R
 
 class WebViewActivity : AppCompatActivity() {
 
-    private val webView : WebView by lazy {findViewById(R.id.web_view)}
+    private val webView: WebView by lazy { findViewById(R.id.web_view) }
+
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +35,7 @@ class WebViewActivity : AppCompatActivity() {
                     webView.loadUrl(url)
                 }
             }
+
             override fun onCancelled(databaseError: DatabaseError) {
                 Log.e("WebViewActivity", "Database error: ${databaseError.message}")
             }
@@ -51,7 +53,8 @@ class WebViewActivity : AppCompatActivity() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (webView.canGoBack()) {
-                    webView.goBack()}
+                    webView.goBack()
+                }
             }
         }
         onBackPressedDispatcher.addCallback(this, callback)
