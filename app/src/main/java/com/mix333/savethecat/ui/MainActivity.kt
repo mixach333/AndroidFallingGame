@@ -16,58 +16,60 @@ import com.mix333.savethecat.R
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
-    private val remoteConfig by lazy {viewModel.getRemoteConfig()}
-    private lateinit var startGame: ImageView
+    private val remoteConfig by lazy { viewModel.getRemoteConfig() }
+    private val startGame: ImageView by lazy { findViewById(R.id.start_game) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        startGame = findViewById(R.id.start_game)
         startGame.setOnClickListener { startGame() }
-        val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 10
-        }
-        remoteConfig.setConfigSettingsAsync(configSettings)
+        setupRemoteConfig()
         checkRemoteConfig()
-
-        remoteConfig.addOnConfigUpdateListener(object : ConfigUpdateListener {
-            override fun onUpdate(configUpdate : ConfigUpdate) {
-                Log.d("Update", "Updated keys: " + configUpdate.updatedKeys);
-
-                if (configUpdate.updatedKeys.contains("isNavigate")) {
-                    remoteConfig.activate().addOnCompleteListener {
-                       checkRemoteConfig()
-                    }
-                }
-            }
-
-            override fun onError(error : FirebaseRemoteConfigException) {
-                Log.w("Error update", "Config update error with code: " + error.code, error)
-            }
-        })
     }
 
     private fun startGame() {
         val gameView = GameView(this)
         setContentView(gameView)
-//        viewModel.startWebView(this)
     }
 
-    private fun checkRemoteConfig(){
-
+    private fun checkRemoteConfig() {
         remoteConfig.fetchAndActivate()
             .addOnCompleteListener(this) { isNavigate ->
                 if (isNavigate.isSuccessful) {
                     val flag = remoteConfig.getBoolean("isNavigate")
                     Log.d("RemoteConfigCheck", "$flag")
                     if (flag) {
-                        // Navigate to WebViewActivity
-//                        viewModel.startWebView(this)
-                        val intent = Intent(this, WebViewActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                        startWebViewActivity()
                     }
                 }
             }
+    }
+
+    private fun startWebViewActivity() {
+        val intent = Intent(this, WebViewActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun setupRemoteConfig(){
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 10
+        }
+        remoteConfig.setConfigSettingsAsync(configSettings)
+        remoteConfig.addOnConfigUpdateListener(object : ConfigUpdateListener {
+            override fun onUpdate(configUpdate: ConfigUpdate) {
+                Log.d("Update", "Updated keys: " + configUpdate.updatedKeys)
+
+                if (configUpdate.updatedKeys.contains("isNavigate")) {
+                    remoteConfig.activate().addOnCompleteListener {
+                        checkRemoteConfig()
+                    }
+                }
+            }
+
+            override fun onError(error: FirebaseRemoteConfigException) {
+                Log.w("Error update", "Config update error with code: " + error.code, error)
+            }
+        })
     }
 }

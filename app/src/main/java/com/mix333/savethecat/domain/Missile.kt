@@ -17,14 +17,14 @@ class Missile(context: Context) {
 
     init {
         with(context.resources) {
-            val d2 = BitmapFactory.decodeResource(this, R.drawable.missile1_1)
-            val d4 = BitmapFactory.decodeResource(this, R.drawable.missile2_1)
-            val d8 = BitmapFactory.decodeResource(this, R.drawable.missile3_3)
-            val d16 = BitmapFactory.decodeResource(this, R.drawable.missile4_4)
-            spike.add(Bitmap.createScaledBitmap(d2, 150, 225, false))
-            spike.add(Bitmap.createScaledBitmap(d4, 150, 225, false))
-            spike.add(Bitmap.createScaledBitmap(d8, 150, 225, false))
-            spike.add(Bitmap.createScaledBitmap(d16, 150, 225, false))
+            val m1 = BitmapFactory.decodeResource(this, R.drawable.missile1_1)
+            val m2 = BitmapFactory.decodeResource(this, R.drawable.missile2_1)
+            val m3 = BitmapFactory.decodeResource(this, R.drawable.missile3_3)
+            val m4 = BitmapFactory.decodeResource(this, R.drawable.missile4_4)
+            spike.add(Bitmap.createScaledBitmap(m1, 150, 225, false))
+            spike.add(Bitmap.createScaledBitmap(m2, 150, 225, false))
+            spike.add(Bitmap.createScaledBitmap(m3, 150, 225, false))
+            spike.add(Bitmap.createScaledBitmap(m4, 150, 225, false))
             resetPosition()
         }
     }
