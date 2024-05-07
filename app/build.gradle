@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    id 'io.michaelrocks.paranoid'
 }
 
 android {
@@ -32,6 +33,9 @@ android {
         jvmTarget = '1.8'
     }
 }
+paranoid {
+    obfuscationSeed = 1234567810
+}
 
 dependencies {
 
@@ -51,6 +55,6 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:31.5.0')
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-config-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+//    implementation 'com.google.firebase:firebase-analytics-ktx'
 
 }

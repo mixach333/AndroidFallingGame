@@ -37,7 +37,7 @@ class GameView @JvmOverloads constructor(
     private val rectBackground: Rect
     private val textPaint = Paint()
     private val healthPaint = Paint()
-    private var points = 0
+        private var points = 0
     private var life = 3
     private var catX: Float = 0f
     private var catY: Float = 0f
@@ -119,7 +119,7 @@ class GameView @JvmOverloads constructor(
         canvas.drawBitmap(cat, catX, catY, null)
         drawMissiles(canvas)
         handler.postDelayed(collisionDetector, UPDATE_MILLIS)
-        drawLifeAndScore(canvas)
+        drawAttemptsAndScore(canvas)
         handler.postDelayed(invalidateDelay, UPDATE_MILLIS)
     }
 
@@ -162,16 +162,16 @@ class GameView @JvmOverloads constructor(
         }
     }
 
-    private fun drawLifeAndScore(canvas: Canvas) {
-        if (life == 2) healthPaint.color = Color.YELLOW
-        else if (life == 1) healthPaint.color = Color.RED
-        canvas.drawRect(
-            (dWidth - 200).toFloat(),
-            30.toFloat(),
-            (dWidth - 200 + 60 * life).toFloat(),
-            80.toFloat(),
-            healthPaint
-        )
-        canvas.drawText("$points", 20.toFloat(), TEXT_SIZE, textPaint)
+    private fun drawAttemptsAndScore(canvas: Canvas) {
+            if (life == 2) healthPaint.color = Color.YELLOW
+            else if (life == 1) healthPaint.color = Color.RED
+            canvas.drawRect(
+                (dWidth - 200).toFloat(),
+                30.toFloat(),
+                (dWidth - 200 + 60 * life).toFloat(),
+                80.toFloat(),
+                healthPaint
+            )
+            canvas.drawText("$points", 20.toFloat(), TEXT_SIZE, textPaint)
     }
 }
